@@ -1,38 +1,38 @@
 <script setup>
-import { mdiLogout, mdiClose } from '@mdi/js'
-import { computed } from 'vue'
-import { useLayoutStore } from '@/stores/layout.js'
-import { useStyleStore } from '@/stores/style.js'
-import AsideMenuList from '@/components/AsideMenuList.vue'
-import AsideMenuItem from '@/components/AsideMenuItem.vue'
-import BaseIcon from '@/components/BaseIcon.vue'
+import { mdiLogout, mdiClose } from "@mdi/js";
+import { computed } from "vue";
+import { useLayoutStore } from "@/stores/layout.js";
+import { useStyleStore } from "@/stores/style.js";
+import AsideMenuList from "@/components/AsideMenuList.vue";
+import AsideMenuItem from "@/components/AsideMenuItem.vue";
+import BaseIcon from "@/components/BaseIcon.vue";
 
 defineProps({
   menu: {
     type: Array,
-    default: () => []
-  }
-})
+    default: () => [],
+  },
+});
 
-const emit = defineEmits(['menu-click'])
+const emit = defineEmits(["menu-click"]);
 
-const layoutStore = useLayoutStore()
+const layoutStore = useLayoutStore();
 
-const styleStore = useStyleStore()
+const styleStore = useStyleStore();
 
 const logoutItem = computed(() => ({
-  label: 'Logout',
+  label: "Logout",
   icon: mdiLogout,
-  color: 'info'
-}))
+  color: "info",
+}));
 
 const logoutItemClick = () => {
   //
-}
+};
 
 const menuClick = (event, item) => {
-  emit('menu-click', event, item)
-}
+  emit("menu-click", event, item);
+};
 </script>
 
 <template>
@@ -48,33 +48,40 @@ const menuClick = (event, item) => {
         :class="styleStore.asideBrandStyle"
         class="flex flex-row h-14 items-center justify-between dark:bg-slate-900"
       >
-        <div class="text-center flex-1 lg:text-left lg:pl-6 xl:text-center xl:pl-0">
-          <b class="font-black">One</b>
+        <div
+          class="text-center flex-1 lg:text-left lg:pl-6 xl:text-center xl:pl-0"
+        >
+          <img
+            v-if="styleStore.darkMode"
+            class="h-12 w-auto mx-auto duration-300 ease-in-out hover:scale-125"
+            src="../assets/images/otra_vez_blanco.png"
+          />
+          <img
+            v-else
+            class="h-10 w-auto mx-auto duration-300 ease-in-out hover:scale-125"
+            src="../assets/images/logo.png"
+          />
         </div>
-        <button 
+        <button
           class="hidden lg:inline-block xl:hidden p-3"
           @click.prevent="layoutStore.isAsideLgActive = false"
         >
-          <BaseIcon
-            :path="mdiClose"
-          />
+          <BaseIcon :path="mdiClose" />
         </button>
       </div>
       <div
-        :class="styleStore.darkMode ? 'aside-scrollbars-[slate]' : styleStore.asideScrollbarsStyle" 
+        :class="
+          styleStore.darkMode
+            ? 'aside-scrollbars-[slate]'
+            : styleStore.asideScrollbarsStyle
+        "
         class="flex-1 overflow-y-auto overflow-x-hidden"
       >
-        <AsideMenuList
-          :menu="menu"
-          @menu-click="menuClick"
-        />
+        <AsideMenuList :menu="menu" @menu-click="menuClick" />
       </div>
 
       <ul>
-        <AsideMenuItem
-          :item="logoutItem"
-          @menu-click="logoutItemClick"
-        />
+        <AsideMenuItem :item="logoutItem" @menu-click="logoutItemClick" />
       </ul>
     </div>
   </aside>

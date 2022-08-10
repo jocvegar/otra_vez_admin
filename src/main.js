@@ -7,7 +7,8 @@ import { useMainStore } from "@/stores/main.js";
 import { useStyleStore } from "@/stores/style.js";
 import { useLayoutStore } from "@/stores/layout.js";
 import { darkModeKey, styleKey } from "@/config.js";
-
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebaseConfig.js";
 import "./css/main.css";
 
 /* Init Pinia */
@@ -40,14 +41,31 @@ if (
 /* Default title tag */
 const defaultDocumentTitle = "Otra Vez";
 
+const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const removeListener = onAuthStateChanged(auth, (user) => {
+      removeListener();
+      resolve(user), reject;
+    });
+  });
+};
 /* Collapse mobile aside menu on route change */
-router.beforeEach(() => {
+router.beforeEach(async (to, from, next) => {
   layoutStore.isAsideMobileExpanded = false;
   layoutStore.isAsideLgActive = false;
+
+  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+
+  if (requiresAuth && !(await getCurrentUser())) {
+    next({ path: "/login" });
+  } else if ((await getCurrentUser()) && to.path === "/login") {
+    next({ path: "/" });
+  } else {
+    next();
+  }
 });
 
 router.afterEach((to) => {
-  /* Set document title from route meta */
   document.title = to.meta?.title
     ? `${to.meta.title} — ${defaultDocumentTitle}`
     : defaultDocumentTitle;

@@ -4,6 +4,8 @@ import { containerMaxW } from "@/config.js";
 import { useMainStore } from "@/stores/main.js";
 import { useStyleStore } from "@/stores/style.js";
 import { useLayoutStore } from "@/stores/layout.js";
+import { useRouter } from "vue-router";
+
 import {
   mdiForwardburger,
   mdiBackburger,
@@ -23,12 +25,16 @@ import BaseDivider from "@/components/BaseDivider.vue";
 import UserAvatarCurrentUser from "@/components/UserAvatarCurrentUser.vue";
 import BaseIcon from "@/components/BaseIcon.vue";
 import NavBarSearch from "@/components/NavBarSearch.vue";
+import { auth } from "@/firebaseConfig";
+import { signOut } from "firebase/auth";
 
 const mainStore = useMainStore();
 
 const userName = computed(() => mainStore.userName);
 
 const styleStore = useStyleStore();
+
+const router = useRouter();
 
 const toggleLightDark = () => {
   styleStore.setDarkMode();
@@ -47,7 +53,10 @@ const menuOpenLg = () => {
 };
 
 const logout = () => {
-  //
+  signOut(auth).then(() => {
+    mainStore.logOutUser();
+    router.push("/login");
+  });
 };
 </script>
 

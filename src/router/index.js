@@ -16,6 +16,7 @@ const routes = [
   {
     meta: {
       title: "Tables",
+      requiresAuth: true,
     },
     path: "/tables",
     name: "tables",
@@ -68,14 +69,6 @@ const routes = [
     path: "/error",
     name: "error",
     component: () => import("@/views/ErrorView.vue"),
-  },
-  {
-    meta: {
-      title: "Test",
-    },
-    path: "/test",
-    name: "test",
-    component: () => import("@/views/TestView.vue"),
   },
   {
     // path: "*",

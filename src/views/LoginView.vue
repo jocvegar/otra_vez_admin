@@ -1,6 +1,9 @@
 <template>
   <LayoutGuest>
-    <div v-if="alertDisplay" class="alert alert-warning shadow-lg">
+    <div
+      v-if="alertDisplay"
+      class="alert alert-warning shadow-lg md:container mx-auto absolute top-0 left-0 right-0 mt-4 z-10"
+    >
       <div>
         <BaseIcon :path="mdiAlertCircle" size="32" />
         <span>{{ alertMessage }}</span>

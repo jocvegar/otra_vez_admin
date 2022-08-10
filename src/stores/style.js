@@ -24,15 +24,15 @@ export const useStyleStore = defineStore("style", {
     // setStyle(payload) {
     setStyle() {
       // if (!styles[payload]) return;
-
       // if (typeof localStorage !== "undefined") {
       //   localStorage.setItem(styleKey, payload);
       // }
-
       // const style = styles[payload];
-
+      // for (const key in styleDefault) {
+      //   this[`${key}Style`] = style[key];
+      // }
       for (const key in styleDefault) {
-        this[`${key}Style`] = style[key];
+        this[`${key}Style`] = styleDefault[key];
       }
     },
 

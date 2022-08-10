@@ -1,11 +1,10 @@
 <script setup>
 import { useRouter } from "vue-router";
+import { useMainStore } from "@/stores/main";
+import LayoutGuest from "@/layouts/LayoutGuest.vue";
 import SectionFullScreen from "@/components/SectionFullScreen.vue";
-import CardBox from "@/components/CardBox.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import SectionMain from "@/components/SectionMain.vue";
-import LayoutGuest from "@/layouts/LayoutGuest.vue";
-import { useMainStore } from "@/stores/main";
 import { mdiGoogle } from "@mdi/js";
 import { auth } from "../firebaseConfig";
 import {
@@ -18,7 +17,6 @@ import {
 const router = useRouter();
 const mainStore = useMainStore();
 
-console.log("mainStore", mainStore);
 const login = async () => {
   const re = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
   const isMobile = re.test(navigator.userAgent);
@@ -33,11 +31,18 @@ const login = async () => {
     } else {
       payload = await signInWithPopup(auth, provider);
     }
-    mainStore.setUser2(payload.user);
-    router.push("/");
-    console.log("payload", payload);
+
+    const isNewUser = payload._tokenResponse.isNewUser;
+
+    if (isNewUser) {
+      payload.user.delete();
+      console.log("sin Acceso");
+    } else {
+      mainStore.setUser2(payload.user);
+      router.push("/");
+    }
   } catch (error) {
-    alert(error.message);
+    console.log(`error`, error);
   }
 };
 </script>
@@ -46,18 +51,20 @@ const login = async () => {
   <LayoutGuest>
     <SectionFullScreen v-slot="{ cardClass }" bg="purplePink">
       <SectionMain>
-        <CardBox class="md:w-7/12 lg:w-5/12 xl:w-4/12 shadow-2xl md:mx-auto">
-          <div
-            class="text-center py-24 lg:py-12 text-gray-500 dark:text-slate-400"
-          >
-            <BaseButton
-              :icon="mdiGoogle"
-              label="login"
-              color="contrast"
-              @click="login"
-            />
-          </div>
-        </CardBox>
+        <img
+          class="h-32 w-auto mx-auto duration-300 ease-in-out animate-pulse mb-10"
+          src="../assets/images/otra_vez_blanco.png"
+        />
+        <div
+          class="text-center py-24 lg:py-12 text-gray-500 dark:text-slate-400"
+        >
+          <BaseButton
+            :icon="mdiGoogle"
+            label="login"
+            color="contrast"
+            @click="login"
+          />
+        </div>
       </SectionMain>
     </SectionFullScreen>
   </LayoutGuest>

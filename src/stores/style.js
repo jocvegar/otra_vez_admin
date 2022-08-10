@@ -1,6 +1,8 @@
 import { defineStore } from "pinia";
-import * as styles from "@/styles";
-import { darkModeKey, styleKey } from "@/config";
+// import * as styles from "@/styles";
+import { white as styleDefault } from "@/styles.js";
+// import { darkModeKey, styleKey } from "@/config";
+import { darkModeKey } from "@/config";
 
 export const useStyleStore = defineStore("style", {
   state: () => ({
@@ -19,16 +21,17 @@ export const useStyleStore = defineStore("style", {
     darkMode: false,
   }),
   actions: {
-    setStyle(payload) {
-      if (!styles[payload]) return;
+    // setStyle(payload) {
+    setStyle() {
+      // if (!styles[payload]) return;
 
-      if (typeof localStorage !== "undefined") {
-        localStorage.setItem(styleKey, payload);
-      }
+      // if (typeof localStorage !== "undefined") {
+      //   localStorage.setItem(styleKey, payload);
+      // }
 
-      const style = styles[payload];
+      // const style = styles[payload];
 
-      for (const key in style) {
+      for (const key in styleDefault) {
         this[`${key}Style`] = style[key];
       }
     },

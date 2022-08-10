@@ -70,6 +70,14 @@ const routes = [
     component: () => import("@/views/ErrorView.vue"),
   },
   {
+    meta: {
+      title: "Test",
+    },
+    path: "/test",
+    name: "test",
+    component: () => import("@/views/TestView.vue"),
+  },
+  {
     // path: "*",
     path: "/:catchAll(.*)",
     name: "Error",

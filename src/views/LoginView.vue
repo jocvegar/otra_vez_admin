@@ -1,3 +1,35 @@
+<template>
+  <LayoutGuest>
+    <div v-if="alertDisplay" class="alert alert-warning shadow-lg">
+      <div>
+        <BaseIcon :path="mdiAlertCircle" size="32" />
+        <span>{{ alertMessage }}</span>
+      </div>
+      <div class="flex-none">
+        <button class="btn btn-sm btn-ghost" @click="closeAlert">Close</button>
+      </div>
+    </div>
+    <SectionFullScreen v-slot="{ cardClass }" bg="purplePink">
+      <SectionMain>
+        <img
+          class="h-32 w-auto mx-auto duration-300 ease-in-out animate-pulse mb-10"
+          src="../assets/images/otra_vez_blanco.png"
+        />
+        <div
+          class="text-center py-24 lg:py-12 text-gray-500 dark:text-slate-400"
+        >
+          <BaseButton
+            :icon="mdiGoogle"
+            label="login"
+            color="contrast"
+            @click="login"
+          />
+        </div>
+      </SectionMain>
+    </SectionFullScreen>
+  </LayoutGuest>
+</template>
+
 <script setup>
 import { useRouter } from "vue-router";
 import { useMainStore } from "@/stores/main";
@@ -48,7 +80,8 @@ const login = async () => {
       router.push("/");
     }
   } catch (error) {
-    console.log(`error`, error);
+    alertMessage.value = error;
+    alertDisplay.value = true;
   }
 };
 
@@ -57,35 +90,3 @@ const closeAlert = () => {
   alertDisplay.value = false;
 };
 </script>
-
-<template>
-  <LayoutGuest>
-    <div v-if="alertDisplay" class="alert alert-warning shadow-lg">
-      <div>
-        <BaseIcon :path="mdiAlertCircle" size="32" />
-        <span>{{ alertMessage }}</span>
-      </div>
-      <div class="flex-none">
-        <button class="btn btn-sm btn-ghost" @click="closeAlert">Close</button>
-      </div>
-    </div>
-    <SectionFullScreen v-slot="{ cardClass }" bg="purplePink">
-      <SectionMain>
-        <img
-          class="h-32 w-auto mx-auto duration-300 ease-in-out animate-pulse mb-10"
-          src="../assets/images/otra_vez_blanco.png"
-        />
-        <div
-          class="text-center py-24 lg:py-12 text-gray-500 dark:text-slate-400"
-        >
-          <BaseButton
-            :icon="mdiGoogle"
-            label="login"
-            color="contrast"
-            @click="login"
-          />
-        </div>
-      </SectionMain>
-    </SectionFullScreen>
-  </LayoutGuest>
-</template>

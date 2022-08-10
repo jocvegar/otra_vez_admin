@@ -5,7 +5,8 @@ import LayoutGuest from "@/layouts/LayoutGuest.vue";
 import SectionFullScreen from "@/components/SectionFullScreen.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import SectionMain from "@/components/SectionMain.vue";
-import { mdiGoogle } from "@mdi/js";
+import BaseIcon from "@/components/BaseIcon.vue";
+import { mdiGoogle, mdiAlertCircle } from "@mdi/js";
 import { auth } from "../firebaseConfig";
 import {
   GoogleAuthProvider,
@@ -13,9 +14,13 @@ import {
   signInWithPopup,
   useDeviceLanguage,
 } from "firebase/auth";
+import { ref } from "vue";
 
 const router = useRouter();
 const mainStore = useMainStore();
+
+const alertMessage = ref("");
+const alertDisplay = ref(false);
 
 const login = async () => {
   const re = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
@@ -36,7 +41,8 @@ const login = async () => {
 
     if (isNewUser) {
       payload.user.delete();
-      console.log("sin Acceso");
+      alertMessage.value = "Sin Acceso :(";
+      alertDisplay.value = true;
     } else {
       mainStore.setUser2(payload.user);
       router.push("/");
@@ -45,10 +51,24 @@ const login = async () => {
     console.log(`error`, error);
   }
 };
+
+const closeAlert = () => {
+  alertMessage.value = "";
+  alertDisplay.value = false;
+};
 </script>
 
 <template>
   <LayoutGuest>
+    <div v-if="alertDisplay" class="alert alert-warning shadow-lg">
+      <div>
+        <BaseIcon :path="mdiAlertCircle" size="32" />
+        <span>{{ alertMessage }}</span>
+      </div>
+      <div class="flex-none">
+        <button class="btn btn-sm btn-ghost" @click="closeAlert">Close</button>
+      </div>
+    </div>
     <SectionFullScreen v-slot="{ cardClass }" bg="purplePink">
       <SectionMain>
         <img

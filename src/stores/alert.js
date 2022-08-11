@@ -12,6 +12,10 @@ export const useAlertStore = defineStore("alert", {
     setMessage(message) {
       this.message = message;
       this.display = true;
+      setTimeout(() => {
+        this.message = "";
+        this.display = false;
+      }, "3500");
     },
   },
 });

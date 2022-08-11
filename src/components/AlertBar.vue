@@ -21,16 +21,8 @@
 import { useAlertStore } from "@/stores/alert.js";
 import { mdiAlertCircle } from "@mdi/js";
 import BaseIcon from "@/components/BaseIcon.vue";
-import { onMounted } from "vue";
 
 const alertStore = useAlertStore();
-
-onMounted(() => {
-  console.log("aca");
-  setTimeout(() => {
-    alertStore.closeAlert();
-  }, "100");
-});
 </script>
 
 <style scoped>

@@ -63,7 +63,7 @@ const login = async () => {
       payload.user.delete();
       alertStore.setMessage("Sin Acceso :(");
     } else {
-      mainStore.setUser2(payload.user);
+      mainStore.setUser(payload.user);
       router.push("/");
     }
   } catch (error) {

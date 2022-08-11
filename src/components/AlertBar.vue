@@ -9,7 +9,7 @@
         <span>{{ alertStore.message }}</span>
       </div>
       <div class="flex-none">
-        <button class="btn btn-sm btn-ghost" @click="alertStore.toggleAlert()">
+        <button class="btn btn-sm btn-ghost" @click="alertStore.closeAlert()">
           Close
         </button>
       </div>
@@ -26,9 +26,10 @@ import { onMounted } from "vue";
 const alertStore = useAlertStore();
 
 onMounted(() => {
+  console.log("aca");
   setTimeout(() => {
     alertStore.closeAlert();
-  }, "3500");
+  }, "100");
 });
 </script>
 

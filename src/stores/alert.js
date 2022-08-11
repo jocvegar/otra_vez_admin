@@ -6,9 +6,6 @@ export const useAlertStore = defineStore("alert", {
     display: false,
   }),
   actions: {
-    toggleAlert() {
-      this.display = !this.display;
-    },
     closeAlert() {
       this.display = false;
     },

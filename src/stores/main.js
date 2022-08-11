@@ -9,9 +9,6 @@ export const useMainStore = defineStore("main", {
     userName: null,
     userEmail: null,
     userAvatar: null,
-    user2Name: null,
-    user2Email: null,
-    user2Avatar: null,
     /* Field focus with ctrl+k (to register only once) */
     isFieldFocusRegistered: false,
     /* Sample data (commonly used) */
@@ -20,20 +17,11 @@ export const useMainStore = defineStore("main", {
   }),
   actions: {
     setUser(payload) {
-      if (payload.name) {
-        this.userName = payload.name;
-      }
-      if (payload.email) {
-        this.userEmail = payload.email;
-      }
-      if (payload.avatar) {
-        this.userAvatar = payload.avatar;
-      }
-    },
-    setUser2(payload) {
-      if (payload.displayName) this.user2Name = payload.displayName;
-      if (payload.email) this.user2Email = payload.email;
-      if (payload.photoURL) this.user2Avatar = payload.photoURL;
+      this.userName = payload.displayName ?? "Chelon";
+      this.userEmail = payload.email ?? "info.otravez@gmail.com";
+      this.userAvatar =
+        payload.auth.currentUser.photoURL ??
+        "https://avatars.dicebear.com/api/avataaars/example.svg?options[top][]=shortHair&options[accessoriesChance]=93";
     },
     logOutUser() {
       this.user2Name = null;
@@ -42,11 +30,7 @@ export const useMainStore = defineStore("main", {
     },
     fetchUser() {
       onAuthStateChanged(auth, (user) => {
-        if (user === null) {
-          this.logOutUser();
-        } else {
-          this.setUser2(user);
-        }
+        user === null ? this.logOutUser() : this.setUser(user);
       });
     },
     fetch(sampleDataKey) {

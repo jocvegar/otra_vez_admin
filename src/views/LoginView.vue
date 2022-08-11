@@ -1,17 +1,5 @@
 <template>
   <LayoutGuest>
-    <div
-      v-if="alertDisplay"
-      class="alert alert-warning shadow-lg md:container mx-auto absolute top-0 left-0 right-0 mt-4 z-10"
-    >
-      <div>
-        <BaseIcon :path="mdiAlertCircle" size="32" />
-        <span>{{ alertMessage }}</span>
-      </div>
-      <div class="flex-none">
-        <button class="btn btn-sm btn-ghost" @click="closeAlert">Close</button>
-      </div>
-    </div>
     <SectionFullScreen v-slot="{ cardClass }" bg="purplePink">
       <SectionMain>
         <img
@@ -36,12 +24,12 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { useMainStore } from "@/stores/main";
+import { useAlertStore } from "@/stores/alert.js";
 import LayoutGuest from "@/layouts/LayoutGuest.vue";
 import SectionFullScreen from "@/components/SectionFullScreen.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import SectionMain from "@/components/SectionMain.vue";
-import BaseIcon from "@/components/BaseIcon.vue";
-import { mdiGoogle, mdiAlertCircle } from "@mdi/js";
+import { mdiGoogle } from "@mdi/js";
 import { auth } from "../firebaseConfig";
 import {
   GoogleAuthProvider,
@@ -49,13 +37,10 @@ import {
   signInWithPopup,
   useDeviceLanguage,
 } from "firebase/auth";
-import { ref } from "vue";
 
 const router = useRouter();
 const mainStore = useMainStore();
-
-const alertMessage = ref("");
-const alertDisplay = ref(false);
+const alertStore = useAlertStore();
 
 const login = async () => {
   const re = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
@@ -76,20 +61,13 @@ const login = async () => {
 
     if (isNewUser) {
       payload.user.delete();
-      alertMessage.value = "Sin Acceso :(";
-      alertDisplay.value = true;
+      alertStore.setMessage("Sin Acceso :(");
     } else {
       mainStore.setUser2(payload.user);
       router.push("/");
     }
   } catch (error) {
-    alertMessage.value = error;
-    alertDisplay.value = true;
+    alertStore.setMessage(error);
   }
-};
-
-const closeAlert = () => {
-  alertMessage.value = "";
-  alertDisplay.value = false;
 };
 </script>

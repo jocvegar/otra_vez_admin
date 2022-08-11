@@ -11,6 +11,7 @@
     >
       <NavBar :class="{ 'ml-60 lg:ml-0': layoutStore.isAsideMobileExpanded }" />
       <AsideMenu />
+      <AlertBar />
       <slot />
       <FooterBar />
     </div>
@@ -23,6 +24,7 @@ import { useStyleStore } from "@/stores/style.js";
 import NavBar from "@/components/NavBar.vue";
 import AsideMenu from "@/components/AsideMenu.vue";
 import FooterBar from "@/components/FooterBar.vue";
+import AlertBar from "@/components/AlertBar.vue";
 
 const styleStore = useStyleStore();
 const layoutStore = useLayoutStore();

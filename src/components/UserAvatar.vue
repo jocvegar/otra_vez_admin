@@ -12,7 +12,8 @@ const props = defineProps({
   },
   api: {
     type: String,
-    default: "big-ears-neutral",
+    // default: "big-ears-neutral",
+    default: "avataaars",
   },
 });
 

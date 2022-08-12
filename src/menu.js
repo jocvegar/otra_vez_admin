@@ -1,12 +1,13 @@
 import {
   mdiAccountCircle,
   mdiMonitor,
-  mdiLock,
-  mdiAlertCircle,
+  // mdiLock,
+  // mdiAlertCircle,
   mdiSquareEditOutline,
   mdiTable,
   mdiTelevisionGuide,
   mdiResponsive,
+  mdiAccountGroup,
 } from "@mdi/js";
 
 export default [
@@ -14,6 +15,11 @@ export default [
     to: "/",
     icon: mdiMonitor,
     label: "Home",
+  },
+  {
+    to: "/users",
+    label: "Users",
+    icon: mdiAccountGroup,
   },
   {
     to: "/tables",
@@ -40,16 +46,16 @@ export default [
     label: "Profile",
     icon: mdiAccountCircle,
   },
-  {
-    to: "/login",
-    label: "Login",
-    icon: mdiLock,
-  },
-  {
-    to: "/error",
-    label: "Error",
-    icon: mdiAlertCircle,
-  },
+  // {
+  //   to: "/login",
+  //   label: "Login",
+  // icon: mdiLock,
+  // },
+  // {
+  //   to: "/error",
+  //   label: "Error",
+  //   icon: mdiAlertCircle,
+  // },
   // {
   //   label: 'Dropdown',
   //   icon: mdiViewList,

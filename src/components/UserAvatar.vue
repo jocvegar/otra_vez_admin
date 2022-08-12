@@ -12,18 +12,26 @@ const props = defineProps({
   },
   api: {
     type: String,
-    default: "avataaars",
+    default: "big-ears-neutral",
   },
 });
 
-const avatar = computed(
-  () =>
-    props.avatar ??
-    `https://avatars.dicebear.com/api/${props.api}/${props.username.replace(
-      /[^a-z0-9]+/i,
-      "-"
-    )}.svg`
-);
+const checkIfImageExists = (url) => {
+  const img = new Image();
+  img.src = url;
+  return img.complete ? "true" : img.onload ? "true" : "false";
+};
+
+const avatar = computed(() => {
+  const isImg = checkIfImageExists(props.avatar);
+
+  return isImg === "true"
+    ? props.avatar
+    : `https://avatars.dicebear.com/api/${props.api}/${props.username.replace(
+        /[^a-z0-9]+/i,
+        "-"
+      )}.svg`;
+});
 
 const username = computed(() => props.username);
 </script>

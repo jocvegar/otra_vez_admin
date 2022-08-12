@@ -15,6 +15,15 @@ const routes = [
   },
   {
     meta: {
+      title: "Users",
+      requiresAuth: true,
+    },
+    path: "/users",
+    name: "users",
+    component: () => import("@/views/UsersView.vue"),
+  },
+  {
+    meta: {
       title: "Tables",
       requiresAuth: true,
     },
@@ -54,22 +63,22 @@ const routes = [
     name: "responsive",
     component: () => import("@/views/ResponsiveView.vue"),
   },
-  {
-    meta: {
-      title: "Login",
-    },
-    path: "/login",
-    name: "login",
-    component: () => import("@/views/LoginView.vue"),
-  },
-  {
-    meta: {
-      title: "Error",
-    },
-    path: "/error",
-    name: "error",
-    component: () => import("@/views/ErrorView.vue"),
-  },
+  // {
+  //   meta: {
+  //     title: "Login",
+  //   },
+  //   path: "/login",
+  //   name: "login",
+  //   component: () => import("@/views/LoginView.vue"),
+  // },
+  // {
+  //   meta: {
+  //     title: "Error",
+  //   },
+  //   path: "/error",
+  //   name: "error",
+  //   component: () => import("@/views/ErrorView.vue"),
+  // },
   {
     // path: "*",
     path: "/:catchAll(.*)",

@@ -1,6 +1,5 @@
 <script setup>
-import { computed, ref } from "vue";
-import { useMainStore } from "@/stores/main";
+import { computed, ref, onMounted } from "vue";
 import { useStyleStore } from "@/stores/style";
 import { mdiEye, mdiTrashCan } from "@mdi/js";
 import CardBoxModal from "@/components/CardBoxModal.vue";
@@ -9,35 +8,39 @@ import BaseLevel from "@/components/BaseLevel.vue";
 import BaseButtons from "@/components/BaseButtons.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import UserAvatar from "@/components/UserAvatar.vue";
+import { useUsers } from "@/services/user.service";
+import { useDateFormat } from "@vueuse/core";
 
 defineProps({
   checkable: Boolean,
 });
 
+const { users, getAllUsers } = useUsers();
+
+onMounted(() => {
+  getAllUsers();
+});
+
 const styleStore = useStyleStore();
-
-const mainStore = useMainStore();
-
-const items = computed(() => mainStore.clients);
 
 const isModalActive = ref(false);
 
 const isModalDangerActive = ref(false);
 
-const perPage = ref(5);
+const perPage = ref(10);
 
 const currentPage = ref(0);
 
 const checkedRows = ref([]);
 
 const itemsPaginated = computed(() =>
-  items.value.slice(
+  users.value.slice(
     perPage.value * currentPage.value,
     perPage.value * (currentPage.value + 1)
   )
 );
 
-const numPages = computed(() => Math.ceil(items.value.length / perPage.value));
+const numPages = computed(() => Math.ceil(users.value.length / perPage.value));
 
 const currentPageHuman = computed(() => currentPage.value + 1);
 
@@ -73,6 +76,8 @@ const checked = (isChecked, client) => {
     );
   }
 };
+
+const formattedDate = (date) => useDateFormat(date, "DD/MM/YY");
 </script>
 
 <template>
@@ -107,10 +112,11 @@ const checked = (isChecked, client) => {
         <th v-if="checkable" />
         <th />
         <th>Name</th>
-        <th>Company</th>
-        <th>City</th>
-        <th>Progress</th>
-        <th>Created</th>
+        <th>Last Name</th>
+        <th>Phone</th>
+        <th>Address</th>
+        <th>Department</th>
+        <th>Date</th>
         <th />
       </tr>
     </thead>
@@ -122,34 +128,29 @@ const checked = (isChecked, client) => {
         />
         <td class="border-b-0 lg:w-6 before:hidden">
           <UserAvatar
-            :username="client.name"
+            :username="client.first_name + '-' + client.last_name"
             class="w-24 h-24 mx-auto lg:w-6 lg:h-6"
           />
         </td>
         <td data-label="Name">
-          {{ client.name }}
+          {{ client.first_name }}
         </td>
-        <td data-label="Company">
-          {{ client.company }}
+        <td data-label="Last Name">
+          {{ client.last_name }}
         </td>
-        <td data-label="City">
-          {{ client.city }}
+        <td data-label="Phone">
+          {{ client.phone }}
         </td>
-        <td data-label="Progress" class="lg:w-32">
-          <progress
-            class="flex w-2/5 self-center lg:w-full"
-            max="100"
-            :value="client.progress"
-          >
-            {{ client.progress }}
-          </progress>
+        <td data-label="Address">
+          {{ client.address }}
         </td>
-        <td data-label="Created" class="lg:w-1 whitespace-nowrap">
-          <small
-            class="text-gray-500 dark:text-slate-400"
-            :title="client.created"
-            >{{ client.created }}</small
-          >
+        <td data-label="Department">
+          {{ client.department }}
+        </td>
+        <td data-label="Date" class="lg:w-1 whitespace-nowrap">
+          <small class="text-gray-500 dark:text-slate-400" title="Date">
+            {{ formattedDate(client.created_at.toDate()) }}
+          </small>
         </td>
         <td class="before:hidden lg:w-1 whitespace-nowrap">
           <BaseButtons type="justify-start lg:justify-end" no-wrap>
@@ -174,13 +175,38 @@ const checked = (isChecked, client) => {
     <BaseLevel>
       <BaseButtons>
         <BaseButton
-          v-for="page in pagesList"
-          :key="page"
-          :active="page === currentPage"
-          :label="page + 1"
+          label="<<"
           small
           :outline="styleStore.darkMode"
-          @click="currentPage = page"
+          @click="currentPage = 0"
+          :disabled="currentPage === 0"
+        />
+        <BaseButton
+          label="<"
+          small
+          :outline="styleStore.darkMode"
+          @click="currentPage = currentPage - 1"
+          :disabled="currentPage === 0"
+        />
+        <BaseButton
+          active
+          :label="currentPage + 1"
+          small
+          :outline="styleStore.darkMode"
+        />
+        <BaseButton
+          label=">"
+          small
+          :outline="styleStore.darkMode"
+          @click="currentPage = currentPage + 1"
+          :disabled="currentPage === numPages - 1"
+        />
+        <BaseButton
+          label=">>"
+          small
+          :outline="styleStore.darkMode"
+          @click="currentPage = numPages - 1"
+          :disabled="currentPage === numPages - 1"
         />
       </BaseButtons>
       <small>Page {{ currentPageHuman }} of {{ numPages }}</small>

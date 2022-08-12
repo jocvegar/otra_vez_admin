@@ -14,8 +14,8 @@
           has-table
           :header-icon-show="false"
         >
-          <!-- <TableSampleClients checkable /> -->
-          <TableSampleClients />
+          <!-- <TableClients checkable /> -->
+          <TableClients />
         </CardBox>
       </div>
 
@@ -30,7 +30,7 @@
 <script setup>
 import { mdiAccountMultiple, mdiAccountGroup, mdiTableOff } from "@mdi/js";
 import SectionMain from "@/components/SectionMain.vue";
-import TableSampleClients from "@/components/TableSampleClients.vue";
+import TableClients from "@/components/TableClients.vue";
 import CardBox from "@/components/CardBox.vue";
 import LayoutAuthenticated from "@/layouts/LayoutAuthenticated.vue";
 import SectionTitleLineWithButton from "@/components/SectionTitleLineWithButton.vue";

@@ -1,85 +1,3 @@
-<script setup>
-import { computed, ref, onMounted } from "vue";
-import { useStyleStore } from "@/stores/style";
-import { mdiEye, mdiTrashCan } from "@mdi/js";
-import CardBoxModal from "@/components/CardBoxModal.vue";
-import TableCheckboxCell from "@/components/TableCheckboxCell.vue";
-import BaseLevel from "@/components/BaseLevel.vue";
-import BaseButtons from "@/components/BaseButtons.vue";
-import BaseButton from "@/components/BaseButton.vue";
-import UserAvatar from "@/components/UserAvatar.vue";
-import { useUsers } from "@/services/user.service";
-import { useDateFormat } from "@vueuse/core";
-
-defineProps({
-  checkable: Boolean,
-});
-
-const { users, getAllUsers } = useUsers();
-
-onMounted(() => {
-  getAllUsers();
-});
-
-const styleStore = useStyleStore();
-
-const isModalActive = ref(false);
-
-const isModalDangerActive = ref(false);
-
-const perPage = ref(10);
-
-const currentPage = ref(0);
-
-const checkedRows = ref([]);
-
-const itemsPaginated = computed(() =>
-  users.value.slice(
-    perPage.value * currentPage.value,
-    perPage.value * (currentPage.value + 1)
-  )
-);
-
-const numPages = computed(() => Math.ceil(users.value.length / perPage.value));
-
-const currentPageHuman = computed(() => currentPage.value + 1);
-
-const pagesList = computed(() => {
-  const pagesList = [];
-
-  for (let i = 0; i < numPages.value; i++) {
-    pagesList.push(i);
-  }
-
-  return pagesList;
-});
-
-const remove = (arr, cb) => {
-  const newArr = [];
-
-  arr.forEach((item) => {
-    if (!cb(item)) {
-      newArr.push(item);
-    }
-  });
-
-  return newArr;
-};
-
-const checked = (isChecked, client) => {
-  if (isChecked) {
-    checkedRows.value.push(client);
-  } else {
-    checkedRows.value = remove(
-      checkedRows.value,
-      (row) => row.id === client.id
-    );
-  }
-};
-
-const formattedDate = (date) => useDateFormat(date, "DD/MM/YY");
-</script>
-
 <template>
   <CardBoxModal v-model="isModalActive" title="Sample modal">
     <p>Lorem ipsum dolor sit amet <b>adipiscing elit</b></p>
@@ -190,7 +108,7 @@ const formattedDate = (date) => useDateFormat(date, "DD/MM/YY");
         />
         <BaseButton
           active
-          :label="currentPage + 1"
+          :label="currentPageHuman"
           small
           :outline="styleStore.darkMode"
         />
@@ -213,3 +131,85 @@ const formattedDate = (date) => useDateFormat(date, "DD/MM/YY");
     </BaseLevel>
   </div>
 </template>
+
+<script setup>
+import { computed, ref, onMounted } from "vue";
+import { useStyleStore } from "@/stores/style";
+import { mdiEye, mdiTrashCan } from "@mdi/js";
+import CardBoxModal from "@/components/CardBoxModal.vue";
+import TableCheckboxCell from "@/components/TableCheckboxCell.vue";
+import BaseLevel from "@/components/BaseLevel.vue";
+import BaseButtons from "@/components/BaseButtons.vue";
+import BaseButton from "@/components/BaseButton.vue";
+import UserAvatar from "@/components/UserAvatar.vue";
+import { useUsers } from "@/services/user.service";
+import { useDateFormat } from "@vueuse/core";
+
+defineProps({
+  checkable: Boolean,
+});
+
+const { users, getAllUsers } = useUsers();
+
+onMounted(() => {
+  getAllUsers();
+});
+
+const styleStore = useStyleStore();
+
+const isModalActive = ref(false);
+
+const isModalDangerActive = ref(false);
+
+const perPage = ref(10);
+
+const currentPage = ref(0);
+
+const checkedRows = ref([]);
+
+const itemsPaginated = computed(() =>
+  users.value.slice(
+    perPage.value * currentPage.value,
+    perPage.value * (currentPage.value + 1)
+  )
+);
+
+const numPages = computed(() => Math.ceil(users.value.length / perPage.value));
+
+const currentPageHuman = computed(() => currentPage.value + 1);
+
+// const pagesList = computed(() => {
+//   const pagesList = [];
+
+//   for (let i = 0; i < numPages.value; i++) {
+//     pagesList.push(i);
+//   }
+
+//   return pagesList;
+// });
+
+const remove = (arr, cb) => {
+  const newArr = [];
+
+  arr.forEach((item) => {
+    if (!cb(item)) {
+      newArr.push(item);
+    }
+  });
+
+  return newArr;
+};
+
+const checked = (isChecked, client) => {
+  if (isChecked) {
+    checkedRows.value.push(client);
+  } else {
+    checkedRows.value = remove(
+      checkedRows.value,
+      (row) => row.id === client.id
+    );
+  }
+};
+
+const formattedDate = (date) => useDateFormat(date, "DD/MM/YY");
+</script>

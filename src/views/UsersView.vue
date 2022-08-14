@@ -1,6 +1,7 @@
 <template>
   <LayoutAuthenticated>
     <SectionMain class="min-h-screen">
+      <!-- JoseVega -->
       <div v-if="true">
         <SectionTitleLineWithButton :icon="mdiAccountGroup" title="Users" main>
           <BaseButton
@@ -9,28 +10,33 @@
             color="contrast"
             rounded-full
             small
-            @click="isModalActive = true"
+            @click="addNewUserModal = true"
           />
         </SectionTitleLineWithButton>
-        <CardBox
+        <CardBoxUsers
           class="mb-6"
           title="Users"
           :icon="mdiAccountMultiple"
           has-table
-          :header-icon-show="false"
+          hoverable
+          @import-excel-click="handleImportExcelClick"
         >
           <!-- <TableClients checkable /> -->
           <TableClients />
-        </CardBox>
+        </CardBoxUsers>
       </div>
 
       <div v-else>
         <SectionTitleLineWithButton :icon="mdiTableOff" title="Users" />
-        <CardBox empty :header-icon-show="false" />
+        <CardBoxUsers empty :header-icon-show="false" />
       </div>
       <AddUserModal
-        :isModalActive="isModalActive"
-        @cancel="isModalActive = false"
+        :isModalActive="addNewUserModal"
+        @cancel="addNewUserModal = false"
+      />
+      <ImportExcelModal
+        :isModalActive="importExcelModal"
+        @cancel="importExcelModal = false"
       />
     </SectionMain>
   </LayoutAuthenticated>
@@ -46,11 +52,17 @@ import {
 } from "@mdi/js";
 import SectionMain from "@/components/SectionMain.vue";
 import TableClients from "@/components/TableClients.vue";
-import CardBox from "@/components/CardBox.vue";
+import CardBoxUsers from "@/components/CardBoxUsers.vue";
 import AddUserModal from "@/components/AddUserModal.vue";
+import ImportExcelModal from "@/components/ImportExcelModal.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import LayoutAuthenticated from "@/layouts/LayoutAuthenticated.vue";
 import SectionTitleLineWithButton from "@/components/SectionTitleLineWithButton.vue";
 
-const isModalActive = ref(false);
+const addNewUserModal = ref(false);
+const importExcelModal = ref(false);
+
+const handleImportExcelClick = () => {
+  importExcelModal.value = true;
+};
 </script>

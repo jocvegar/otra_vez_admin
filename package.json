@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@mdi/js": "^7.0.96",
+    "@vueuse/components": "^9.1.0",
     "@vueuse/core": "^9.1.0",
     "axios": "^0.27.0",
     "chart.js": "^3.6.0",
@@ -16,6 +17,7 @@
     "firebase": "^9.9.2",
     "numeral": "^2.0.6",
     "pinia": "^2.0.13",
+    "read-excel-file": "^5.4.5",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0"
   },

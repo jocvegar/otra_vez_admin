@@ -14,7 +14,7 @@
           trend-type="up"
           color="text-emerald-500"
           :icon="mdiAccountMultiple"
-          :number="666"
+          :number="userStore.usersCount"
           label="Clients"
         />
         <CardBoxWidget
@@ -88,6 +88,7 @@
 <script setup>
 import { computed, ref, onMounted } from "vue";
 import { useMainStore } from "@/stores/main";
+import { useUserStore } from "@/stores/user.js";
 import {
   mdiAccountMultiple,
   mdiCartOutline,
@@ -113,6 +114,8 @@ const chartData = ref(null);
 const fillChartData = () => {
   chartData.value = chartConfig.sampleChartData();
 };
+
+const userStore = useUserStore();
 
 onMounted(() => {
   fillChartData();

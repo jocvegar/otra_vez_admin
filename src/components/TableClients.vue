@@ -135,6 +135,7 @@
 <script setup>
 import { computed, ref, onMounted } from "vue";
 import { useStyleStore } from "@/stores/style";
+import { useUserStore } from "@/stores/user.js";
 import { mdiEye, mdiTrashCan } from "@mdi/js";
 import CardBoxModal from "@/components/CardBoxModal.vue";
 import TableCheckboxCell from "@/components/TableCheckboxCell.vue";
@@ -142,18 +143,13 @@ import BaseLevel from "@/components/BaseLevel.vue";
 import BaseButtons from "@/components/BaseButtons.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import UserAvatar from "@/components/UserAvatar.vue";
-import { useUsers } from "@/services/user.service";
 import { useDateFormat } from "@vueuse/core";
 
 defineProps({
   checkable: Boolean,
 });
 
-const { users, getAllUsers } = useUsers();
-
-onMounted(() => {
-  getAllUsers();
-});
+const userStore = useUserStore();
 
 const styleStore = useStyleStore();
 
@@ -174,14 +170,14 @@ const filterDirection = ref(true);
 const itemsPaginated = computed(() => {
   const sortedUsers = () => {
     if (filterDirection.value) {
-      return users.value.sort((a, b) =>
+      return userStore.users.sort((a, b) =>
         a[filterParam.value]?.toString()?.toLowerCase() >
         b[filterParam.value]?.toString()?.toLowerCase()
           ? 1
           : -1
       );
     } else {
-      return users.value.sort((a, b) =>
+      return userStore.users.sort((a, b) =>
         a[filterParam.value]?.toString()?.toLowerCase() <
         b[filterParam.value]?.toString()?.toLowerCase()
           ? 1
@@ -196,7 +192,9 @@ const itemsPaginated = computed(() => {
   );
 });
 
-const numPages = computed(() => Math.ceil(users.value.length / perPage.value));
+const numPages = computed(() =>
+  Math.ceil(userStore.users.length / perPage.value)
+);
 
 const currentPageHuman = computed(() => currentPage.value + 1);
 

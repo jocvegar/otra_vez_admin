@@ -29,12 +29,12 @@
       <tr>
         <th v-if="checkable" />
         <th />
-        <th>Name</th>
-        <th>Last Name</th>
-        <th>Phone</th>
-        <th>Address</th>
-        <th>Department</th>
-        <th>Date</th>
+        <th @click="sortBy('first_name')">Name</th>
+        <th @click="sortBy('last_name')">Last Name</th>
+        <th @click="sortBy('phone')">Phone</th>
+        <th @click="sortBy('address')">Address</th>
+        <th @click="sortBy('department')">Department</th>
+        <th @click="sortBy('created_at')">Date</th>
         <th />
       </tr>
     </thead>
@@ -161,32 +161,44 @@ const isModalActive = ref(false);
 
 const isModalDangerActive = ref(false);
 
-const perPage = ref(10);
+const perPage = ref(25);
 
 const currentPage = ref(0);
 
 const checkedRows = ref([]);
 
-const itemsPaginated = computed(() =>
-  users.value.slice(
+const filterParam = ref("first_name");
+
+const filterDirection = ref(true);
+
+const itemsPaginated = computed(() => {
+  const sortedUsers = () => {
+    if (filterDirection.value) {
+      return users.value.sort((a, b) =>
+        a[filterParam.value]?.toString()?.toLowerCase() >
+        b[filterParam.value]?.toString()?.toLowerCase()
+          ? 1
+          : -1
+      );
+    } else {
+      return users.value.sort((a, b) =>
+        a[filterParam.value]?.toString()?.toLowerCase() <
+        b[filterParam.value]?.toString()?.toLowerCase()
+          ? 1
+          : -1
+      );
+    }
+  };
+
+  return sortedUsers().slice(
     perPage.value * currentPage.value,
     perPage.value * (currentPage.value + 1)
-  )
-);
+  );
+});
 
 const numPages = computed(() => Math.ceil(users.value.length / perPage.value));
 
 const currentPageHuman = computed(() => currentPage.value + 1);
-
-// const pagesList = computed(() => {
-//   const pagesList = [];
-
-//   for (let i = 0; i < numPages.value; i++) {
-//     pagesList.push(i);
-//   }
-
-//   return pagesList;
-// });
 
 const remove = (arr, cb) => {
   const newArr = [];
@@ -209,6 +221,11 @@ const checked = (isChecked, client) => {
       (row) => row.id === client.id
     );
   }
+};
+
+const sortBy = (param) => {
+  filterParam.value = param;
+  filterDirection.value = !filterDirection.value;
 };
 
 const formattedDate = (date) => useDateFormat(date, "DD/MM/YY");

@@ -32,6 +32,7 @@ import NotificationBarInCard from "@/components/NotificationBarInCard.vue";
 import FormFilePicker from "@/components/FormFilePicker.vue";
 import { reactive } from "vue";
 import readXlsxFile from "read-excel-file";
+import { useUsers } from "@/services/user.service";
 
 defineProps({
   isModalActive: Boolean,
@@ -49,6 +50,8 @@ const notification = reactive({
   formStatusColor: null,
 });
 
+const { addUser } = useUsers();
+
 const handleCancel = () => {
   emit("cancel");
   customElementsForm.file = null;
@@ -65,8 +68,16 @@ const readFile = async () => {
   notification.formStatusColor = "info";
 
   await readXlsxFile(customElementsForm.file).then((rows) => {
-    rows.slice(1).forEach((row) => {
-      console.log("row", row);
+    rows.slice(1).forEach(async (row) => {
+      const user = {
+        first_name: row[0],
+        last_name: row[1],
+        phone: row[2],
+        address: row[3],
+        department: row[4],
+        created_at: row[5],
+      };
+      await addUser(user);
     });
   });
 

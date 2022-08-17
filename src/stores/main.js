@@ -24,9 +24,9 @@ export const useMainStore = defineStore("main", {
         "https://avatars.dicebear.com/api/avataaars/example.svg?options[top][]=shortHair&options[accessoriesChance]=93";
     },
     logOutUser() {
-      this.user2Name = null;
-      this.user2Email = null;
-      this.user2Avatar = null;
+      this.userName = null;
+      this.userEmail = null;
+      this.userAvatar = null;
     },
     fetchUser() {
       onAuthStateChanged(auth, (user) => {

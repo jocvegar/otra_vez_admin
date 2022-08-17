@@ -6,6 +6,10 @@ import { useStyleStore } from "@/stores/style.js";
 import AsideMenuList from "@/components/AsideMenuList.vue";
 import AsideMenuItem from "@/components/AsideMenuItem.vue";
 import BaseIcon from "@/components/BaseIcon.vue";
+import { auth } from "@/firebaseConfig";
+import { signOut } from "firebase/auth";
+import { useMainStore } from "@/stores/main.js";
+import { useRouter } from "vue-router";
 
 defineProps({
   menu: {
@@ -20,6 +24,10 @@ const layoutStore = useLayoutStore();
 
 const styleStore = useStyleStore();
 
+const mainStore = useMainStore();
+
+const router = useRouter();
+
 const logoutItem = computed(() => ({
   label: "Logout",
   icon: mdiLogout,
@@ -27,7 +35,10 @@ const logoutItem = computed(() => ({
 }));
 
 const logoutItemClick = () => {
-  //
+  signOut(auth).then(() => {
+    mainStore.logOutUser();
+    router.push("/login");
+  });
 };
 
 const menuClick = (event, item) => {

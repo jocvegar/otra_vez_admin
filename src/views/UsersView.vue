@@ -1,8 +1,7 @@
 <template>
   <LayoutAuthenticated>
     <SectionMain class="min-h-screen">
-      <!-- JoseVega -->
-      <div v-if="true">
+      <div v-if="userStore.users">
         <SectionTitleLineWithButton :icon="mdiAccountGroup" title="Users" main>
           <BaseButton
             :icon="mdiAccountPlus"
@@ -10,7 +9,7 @@
             color="contrast"
             rounded-full
             small
-            @click="addNewUserModal = true"
+            @click="handleUserModal"
           />
         </SectionTitleLineWithButton>
         <CardBoxUsers
@@ -31,6 +30,7 @@
         <CardBoxUsers empty :header-icon-show="false" />
       </div>
       <AddUserModal
+        :key="newUserModalKey"
         :isModalActive="addNewUserModal"
         @cancel="addNewUserModal = false"
       />
@@ -58,11 +58,19 @@ import ImportExcelModal from "@/components/ImportExcelModal.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import LayoutAuthenticated from "@/layouts/LayoutAuthenticated.vue";
 import SectionTitleLineWithButton from "@/components/SectionTitleLineWithButton.vue";
+import { useUserStore } from "@/stores/user.js";
 
 const addNewUserModal = ref(false);
 const importExcelModal = ref(false);
+const newUserModalKey = ref(0);
+const userStore = useUserStore();
 
 const handleImportExcelClick = () => {
   importExcelModal.value = true;
+};
+
+const handleUserModal = () => {
+  addNewUserModal.value = true;
+  newUserModalKey.value = Math.random();
 };
 </script>

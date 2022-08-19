@@ -5,23 +5,34 @@ import {
   addDoc,
   orderBy,
   query,
+  onSnapshot,
 } from "firebase/firestore";
 
 import { ref } from "vue";
 
 const users = ref([]);
 
-const getAllUsers = async () => {
-  let userArr = [];
-  const querySnapshot = await getDocs(
-    query(collection(db, "users"), orderBy("first_name", "asc"))
-  );
+const getAllUsers = () => {
+  // let userArr = [];
+  // const querySnapshot = await getDocs(
+  //   query(collection(db, "users"), orderBy("first_name", "asc"))
+  // );
 
-  querySnapshot.forEach((doc) => {
-    userArr.push(Object.assign({ id: doc.id }, doc.data()));
+  // querySnapshot.forEach((doc) => {
+  //   userArr.push(Object.assign({ id: doc.id }, doc.data()));
+  // });
+
+  // users.value = userArr;
+  // return users;
+
+  const q = query(collection(db, "users"), orderBy("first_name", "asc"));
+  onSnapshot(q, (querySnapshot) => {
+    let userArr = [];
+    querySnapshot.forEach((doc) => {
+      userArr.push(Object.assign({ id: doc.id }, doc.data()));
+    });
+    users.value = userArr;
   });
-
-  users.value = userArr;
   return users;
 };
 

@@ -112,7 +112,7 @@ import SectionTitleLineWithButton from "@/components/SectionTitleLineWithButton.
 const chartData = ref(null);
 
 const fillChartData = () => {
-  chartData.value = chartConfig.sampleChartData();
+  chartData.value = chartConfig.usersChartData();
 };
 
 const userStore = useUserStore();

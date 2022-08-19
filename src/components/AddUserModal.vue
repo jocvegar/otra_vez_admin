@@ -65,7 +65,7 @@ defineProps({
 
 const alertStore = useAlertStore();
 
-const { addUser } = useUsers();
+const { addUser, findUser, user } = useUsers();
 
 const selectOptions = [
   { id: 1, label: "Atlántida" },
@@ -103,7 +103,7 @@ const handleCancel = () => {
 };
 
 const handleSubmit = async () => {
-  const user = {
+  const userData = {
     first_name: form.first_name,
     last_name: form.last_name,
     phone: form.phone,
@@ -111,8 +111,16 @@ const handleSubmit = async () => {
     department: form.department.label,
     created_at: new Date(),
   };
+  await findUser(userData);
+
+  if (user.value) {
+    alertStore.setMessage("User already exists");
+    emit("cancel");
+    return;
+  }
+
   try {
-    await addUser(user);
+    await addUser(userData);
     alertStore.setMessage("User added successfully");
     emit("cancel");
   } catch (error) {

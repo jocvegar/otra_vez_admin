@@ -72,7 +72,7 @@ const readFile = async () => {
       const user = {
         first_name: row[0],
         last_name: row[1],
-        phone: row[2],
+        phone: row[2]?.toString(),
         address: row[3],
         department: row[4],
         created_at: row[5],

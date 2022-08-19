@@ -5,11 +5,13 @@ import {
   addDoc,
   orderBy,
   query,
+  where,
   onSnapshot,
 } from "firebase/firestore";
 
 import { ref } from "vue";
 
+const user = ref(null);
 const users = ref([]);
 
 const getAllUsers = () => {
@@ -36,6 +38,24 @@ const getAllUsers = () => {
   return users;
 };
 
+const findUser = async (userInfo = {}) => {
+  console.log("userInfo", userInfo);
+  const q = query(
+    collection(db, "users"),
+    where("first_name", "==", userInfo.first_name),
+    where("last_name", "==", userInfo.last_name),
+    where("phone", "==", userInfo.phone),
+    where("department", "==", userInfo.department)
+  );
+  const querySnapshot = await getDocs(q);
+  const resultArray = [];
+  querySnapshot.forEach((doc) => {
+    resultArray.push(Object.assign({ id: doc.id }, doc.data()));
+  });
+  user.value = resultArray.length > 0 ? resultArray[0] : null;
+  return user;
+};
+
 const addUser = async (user) => {
   const docRef = await addDoc(collection(db, "users"), {
     first_name: user.first_name,
@@ -50,8 +70,10 @@ const addUser = async (user) => {
 
 export function useUsers() {
   return {
+    user,
     users,
     addUser,
     getAllUsers,
+    findUser,
   };
 }

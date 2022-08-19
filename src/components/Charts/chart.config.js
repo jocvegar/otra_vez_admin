@@ -1,3 +1,7 @@
+import { useUsers } from "../../services/user.service";
+import _groupBy from "lodash/groupBy";
+
+const { users } = useUsers();
 export const chartColors = {
   default: {
     primary: "#00D1B2",
@@ -36,7 +40,7 @@ const datasetObject = (color, points) => {
   };
 };
 
-const usersetObject = (color) => {
+const usersetObject = (color, points) => {
   return {
     fill: false,
     borderColor: chartColors.default[color],
@@ -50,7 +54,7 @@ const usersetObject = (color) => {
     pointHoverRadius: 4,
     pointHoverBorderWidth: 15,
     pointRadius: 4,
-    data: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+    data: points,
     tension: 0.5,
     cubicInterpolationMode: "default",
   };
@@ -74,20 +78,12 @@ export const sampleChartData = (points = 9) => {
 };
 
 export const usersChartData = () => {
-  const labels = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-  ];
+  const groupBy = _groupBy(users.value, "department");
+  const labels = Object.keys(groupBy);
+  const points = Object.values(groupBy).map((point) => point.length);
 
   return {
     labels,
-    datasets: [usersetObject("primary")],
+    datasets: [usersetObject("primary", points)],
   };
 };

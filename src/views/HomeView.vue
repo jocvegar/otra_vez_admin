@@ -118,7 +118,9 @@ const fillChartData = () => {
 const userStore = useUserStore();
 
 onMounted(() => {
-  fillChartData();
+  setTimeout(() => {
+    fillChartData();
+  }, 1000);
 });
 
 const mainStore = useMainStore();

@@ -39,7 +39,6 @@ const getAllUsers = () => {
 };
 
 const findUser = async (userInfo = {}) => {
-  console.log("userInfo", userInfo);
   const q = query(
     collection(db, "users"),
     where("first_name", "==", userInfo.first_name),

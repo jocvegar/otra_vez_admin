@@ -11,6 +11,7 @@ export const useMainStore = defineStore("main", {
     userAvatar: null,
     /* Field focus with ctrl+k (to register only once) */
     isFieldFocusRegistered: false,
+    searchValue: "",
     /* Sample data (commonly used) */
     clients: [],
     history: [],
@@ -32,6 +33,12 @@ export const useMainStore = defineStore("main", {
       onAuthStateChanged(auth, (user) => {
         user === null ? this.logOutUser() : this.setUser(user);
       });
+    },
+    setSearchValue(payload) {
+      this.searchValue = payload;
+    },
+    resetSearchValue() {
+      this.searchValue = "";
     },
     fetch(sampleDataKey) {
       axios

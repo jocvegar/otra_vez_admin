@@ -17,6 +17,7 @@ const routes = [
     meta: {
       title: "Users",
       requiresAuth: true,
+      showSearch: true,
     },
     path: "/users",
     name: "users",

@@ -1,7 +1,7 @@
 <template>
   <LayoutAuthenticated>
     <SectionMain class="min-h-screen">
-      <div v-if="userStore.users">
+      <div v-if="userStore.users.length > 0">
         <SectionTitleLineWithButton :icon="mdiAccountGroup" title="Users" main>
           <BaseButton
             :icon="mdiAccountPlus"
@@ -43,7 +43,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import {
   mdiAccountMultiple,
   mdiAccountGroup,
@@ -59,11 +59,17 @@ import BaseButton from "@/components/BaseButton.vue";
 import LayoutAuthenticated from "@/layouts/LayoutAuthenticated.vue";
 import SectionTitleLineWithButton from "@/components/SectionTitleLineWithButton.vue";
 import { useUserStore } from "@/stores/user.js";
+import { useMainStore } from "@/stores/main";
 
 const addNewUserModal = ref(false);
 const importExcelModal = ref(false);
 const newUserModalKey = ref(0);
 const userStore = useUserStore();
+const mainStore = useMainStore();
+
+onMounted(() => {
+  mainStore.resetSearchValue();
+});
 
 const handleImportExcelClick = () => {
   importExcelModal.value = true;

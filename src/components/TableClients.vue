@@ -144,6 +144,7 @@ import BaseButtons from "@/components/BaseButtons.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import UserAvatar from "@/components/UserAvatar.vue";
 import { useDateFormat } from "@vueuse/core";
+import { useMainStore } from "@/stores/main";
 
 defineProps({
   checkable: Boolean,
@@ -152,6 +153,8 @@ defineProps({
 const userStore = useUserStore();
 
 const styleStore = useStyleStore();
+
+const mainStore = useMainStore();
 
 const isModalActive = ref(false);
 
@@ -186,10 +189,27 @@ const itemsPaginated = computed(() => {
     }
   };
 
-  return sortedUsers().slice(
-    perPage.value * currentPage.value,
-    perPage.value * (currentPage.value + 1)
-  );
+  return sortedUsers()
+    .filter((user) => {
+      return (
+        user.first_name
+          .toLowerCase()
+          .includes(mainStore.searchValue.toLocaleLowerCase()) ||
+        user.last_name
+          .toLowerCase()
+          .includes(mainStore.searchValue.toLocaleLowerCase()) ||
+        user.phone
+          .toLowerCase()
+          .includes(mainStore.searchValue.toLocaleLowerCase()) ||
+        user.department
+          .toLowerCase()
+          .includes(mainStore.searchValue.toLocaleLowerCase())
+      );
+    })
+    .slice(
+      perPage.value * currentPage.value,
+      perPage.value * (currentPage.value + 1)
+    );
 });
 
 const numPages = computed(() =>

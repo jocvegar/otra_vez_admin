@@ -26,13 +26,12 @@
           label="Admin"
         />
         <CardBoxWidget
-          trend="Overflow"
+          trend="Location"
           trend-type="alert"
           color="text-red-500"
           :icon="mdiChartTimelineVariant"
-          :number="256"
-          suffix="%"
-          label="Performance"
+          :number="102"
+          label="Most Clients"
         />
       </div>
 
@@ -61,7 +60,7 @@
         </div>
       </div> -->
 
-      <SectionTitleLineWithButton :icon="mdiChartPie" title="Trends overview" />
+      <SectionTitleLineWithButton :icon="mdiChartPie" title="Location" />
 
       <CardBox
         title="Performance"

@@ -27,7 +27,7 @@ const getAllUsers = () => {
   // users.value = userArr;
   // return users;
 
-  const q = query(collection(db, "users"), orderBy("first_name", "asc"));
+  const q = query(collection(db, "users"), orderBy("created_at", "asc"));
   onSnapshot(q, (querySnapshot) => {
     let userArr = [];
     querySnapshot.forEach((doc) => {

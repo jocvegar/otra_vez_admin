@@ -18,13 +18,12 @@
           label="Clients"
         />
         <CardBoxWidget
-          trend="12%"
-          trend-type="down"
+          trend="100%"
+          trend-type="up"
           color="text-blue-500"
-          :icon="mdiCartOutline"
-          :number="7770"
-          prefix="$"
-          label="Sales"
+          :icon="mdiAccountStar"
+          :number="2"
+          label="Admin"
         />
         <CardBoxWidget
           trend="Overflow"
@@ -37,7 +36,7 @@
         />
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+      <!-- <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         <div class="flex flex-col justify-between">
           <CardBoxTransaction
             v-for="(transaction, index) in transactionBarItems"
@@ -60,7 +59,7 @@
             :progress="client.progress"
           />
         </div>
-      </div>
+      </div> -->
 
       <SectionTitleLineWithButton :icon="mdiChartPie" title="Trends overview" />
 
@@ -78,8 +77,8 @@
 
       <SectionTitleLineWithButton :icon="mdiAccountMultiple" title="Clients" />
 
-      <CardBox :icon="mdiMonitorCellphone" title="Responsive table" has-table>
-        <TableSampleClients />
+      <CardBox title="Lastest Clients" has-table>
+        <TableClientsLimit />
       </CardBox>
     </SectionMain>
   </LayoutAuthenticated>
@@ -91,7 +90,7 @@ import { useMainStore } from "@/stores/main";
 import { useUserStore } from "@/stores/user.js";
 import {
   mdiAccountMultiple,
-  mdiCartOutline,
+  mdiAccountStar,
   mdiChartTimelineVariant,
   mdiFinance,
   mdiMonitorCellphone,
@@ -103,7 +102,7 @@ import LineChart from "@/components/Charts/LineChart.vue";
 import SectionMain from "@/components/SectionMain.vue";
 import CardBoxWidget from "@/components/CardBoxWidget.vue";
 import CardBox from "@/components/CardBox.vue";
-import TableSampleClients from "@/components/TableSampleClients.vue";
+import TableClientsLimit from "@/components/TableClientsLimit.vue";
 import CardBoxTransaction from "@/components/CardBoxTransaction.vue";
 import CardBoxClient from "@/components/CardBoxClient.vue";
 import LayoutAuthenticated from "@/layouts/LayoutAuthenticated.vue";

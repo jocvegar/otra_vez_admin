@@ -166,7 +166,7 @@ const currentPage = ref(0);
 
 const checkedRows = ref([]);
 
-const filterParam = ref("first_name");
+const filterParam = ref("created_at");
 
 const filterDirection = ref(true);
 
@@ -174,14 +174,14 @@ const itemsPaginated = computed(() => {
   const sortedUsers = () => {
     if (filterDirection.value) {
       return userStore.users.sort((a, b) =>
-        a[filterParam.value]?.toString()?.toLowerCase() >
+        a[filterParam.value]?.toString()?.toLowerCase() <
         b[filterParam.value]?.toString()?.toLowerCase()
           ? 1
           : -1
       );
     } else {
       return userStore.users.sort((a, b) =>
-        a[filterParam.value]?.toString()?.toLowerCase() <
+        a[filterParam.value]?.toString()?.toLowerCase() >
         b[filterParam.value]?.toString()?.toLowerCase()
           ? 1
           : -1

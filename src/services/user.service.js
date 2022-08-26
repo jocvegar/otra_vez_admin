@@ -7,6 +7,8 @@ import {
   query,
   where,
   onSnapshot,
+  doc,
+  deleteDoc,
 } from "firebase/firestore";
 
 import { ref } from "vue";
@@ -67,11 +69,16 @@ const addUser = async (user) => {
   console.log("Document written with ID: ", docRef.id);
 };
 
+const deleteUser = async (userId) => {
+  await deleteDoc(doc(db, "users", userId));
+};
+
 export function useUsers() {
   return {
     user,
     users,
     addUser,
+    deleteUser,
     getAllUsers,
     findUser,
   };

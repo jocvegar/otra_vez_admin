@@ -7,7 +7,6 @@
         main
       >
       </SectionTitleLineWithButton>
-
       <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mb-6">
         <CardBoxWidget
           trend="12%"
@@ -19,19 +18,19 @@
         />
         <CardBoxWidget
           trend="100%"
-          trend-type="up"
+          trend-type="success"
           color="text-blue-500"
           :icon="mdiAccountStar"
           :number="2"
           label="Admin"
         />
         <CardBoxWidget
-          trend="Location"
+          :trend="userStore.departmentMostUsers.department"
           trend-type="alert"
           color="text-red-500"
           :icon="mdiChartTimelineVariant"
-          :number="102"
-          label="Most Clients"
+          :number="userStore.departmentMostUsers.count"
+          label="Most buyers"
         />
       </div>
 

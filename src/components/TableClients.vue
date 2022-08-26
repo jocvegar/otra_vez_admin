@@ -6,12 +6,13 @@
 
   <CardBoxModal
     v-model="isModalDangerActive"
-    large-title="Please confirm"
+    :large-title="`Are you sure you want to delete ${deleteModalUserName}?`"
     button="danger"
     has-cancel
+    @confirm="handleConfirm"
   >
-    <p>Lorem ipsum dolor sit amet <b>adipiscing elit</b></p>
-    <p>This is sample modal</p>
+    <p>{{ deleteModalUserName }}</p>
+    <p>{{ deleteModalUserPhone }}</p>
   </CardBoxModal>
 
   <div v-if="checkedRows.length" class="p-3 bg-gray-100/50 dark:bg-slate-800">
@@ -82,7 +83,7 @@
               color="danger"
               :icon="mdiTrashCan"
               small
-              @click="isModalDangerActive = true"
+              @click="handleDelete(client)"
             />
           </BaseButtons>
         </td>
@@ -136,6 +137,7 @@
 import { computed, ref, onMounted } from "vue";
 import { useStyleStore } from "@/stores/style";
 import { useUserStore } from "@/stores/user.js";
+import { useAlertStore } from "@/stores/alert";
 import { mdiEye, mdiTrashCan } from "@mdi/js";
 import CardBoxModal from "@/components/CardBoxModal.vue";
 import TableCheckboxCell from "@/components/TableCheckboxCell.vue";
@@ -145,10 +147,15 @@ import BaseButton from "@/components/BaseButton.vue";
 import UserAvatar from "@/components/UserAvatar.vue";
 import { useDateFormat } from "@vueuse/core";
 import { useMainStore } from "@/stores/main";
+import { useUsers } from "@/services/user.service";
 
 defineProps({
   checkable: Boolean,
 });
+
+const alertStore = useAlertStore();
+
+const { deleteUser } = useUsers();
 
 const userStore = useUserStore();
 
@@ -169,6 +176,34 @@ const checkedRows = ref([]);
 const filterParam = ref("created_at");
 
 const filterDirection = ref(true);
+
+const userIdDelete = ref(null);
+
+const deleteModalTitle = ref("");
+
+const deleteModalUserName = ref("");
+
+const deleteModalUserPhone = ref("");
+
+const handleDelete = (client) => {
+  isModalDangerActive.value = true;
+  userIdDelete.value = client.id;
+  deleteModalUserName.value = `${client.first_name} ${client.last_name}`;
+  deleteModalUserPhone.value = client.phone;
+};
+
+const handleConfirm = async () => {
+  try {
+    await deleteUser(userIdDelete.value);
+    alertStore.setMessage("User deleted successfully");
+  } catch (error) {
+    alertStore.setMessage(error);
+  }
+
+  userIdDelete.value = null;
+  deleteModalUserName.value = "";
+  deleteModalUserPhone.value = "";
+};
 
 const itemsPaginated = computed(() => {
   const sortedUsers = () => {

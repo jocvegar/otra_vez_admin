@@ -13,8 +13,7 @@ export const useUserStore = defineStore("user", {
       const groupBy = _groupBy(state.users, "department");
       const values = Object.values(groupBy);
       const maxCount = _max(values)?.length;
-
-      let key = _findKey(groupBy, (o) => o.length >= maxCount);
+      const key = _findKey(groupBy, (o) => o.length >= maxCount);
 
       return { department: key, count: maxCount };
     },

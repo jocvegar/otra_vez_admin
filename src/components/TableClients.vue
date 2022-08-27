@@ -1,8 +1,10 @@
 <template>
-  <CardBoxModal v-model="isModalActive" title="Sample modal">
-    <p>Lorem ipsum dolor sit amet <b>adipiscing elit</b></p>
-    <p>This is sample modal</p>
-  </CardBoxModal>
+  <EditUserModal
+    :key="editUserModalKey"
+    :isModalActive="editUserModal"
+    @cancel="editUserModal = false"
+    :client="clientEdit"
+  />
 
   <CardBoxModal
     v-model="isModalDangerActive"
@@ -75,9 +77,9 @@
           <BaseButtons type="justify-start lg:justify-end" no-wrap>
             <BaseButton
               color="info"
-              :icon="mdiEye"
+              :icon="mdiAccountCog"
               small
-              @click="isModalActive = true"
+              @click="handleUserEditModal(client)"
             />
             <BaseButton
               color="danger"
@@ -138,7 +140,7 @@ import { computed, ref, onMounted } from "vue";
 import { useStyleStore } from "@/stores/style";
 import { useUserStore } from "@/stores/user.js";
 import { useAlertStore } from "@/stores/alert";
-import { mdiEye, mdiTrashCan } from "@mdi/js";
+import { mdiAccountCog, mdiTrashCan } from "@mdi/js";
 import CardBoxModal from "@/components/CardBoxModal.vue";
 import TableCheckboxCell from "@/components/TableCheckboxCell.vue";
 import BaseLevel from "@/components/BaseLevel.vue";
@@ -148,6 +150,7 @@ import UserAvatar from "@/components/UserAvatar.vue";
 import { useDateFormat } from "@vueuse/core";
 import { useMainStore } from "@/stores/main";
 import { useUsers } from "@/services/user.service";
+import EditUserModal from "@/components/EditUserModal.vue";
 
 defineProps({
   checkable: Boolean,
@@ -184,6 +187,18 @@ const deleteModalTitle = ref("");
 const deleteModalUserName = ref("");
 
 const deleteModalUserPhone = ref("");
+
+const editUserModalKey = ref(0);
+
+const editUserModal = ref(false);
+
+const clientEdit = ref(null);
+
+const handleUserEditModal = (client) => {
+  editUserModal.value = true;
+  editUserModalKey.value = Math.random();
+  clientEdit.value = client;
+};
 
 const handleDelete = (client) => {
   isModalDangerActive.value = true;

@@ -9,6 +9,7 @@ import {
   onSnapshot,
   doc,
   deleteDoc,
+  updateDoc,
 } from "firebase/firestore";
 
 import { ref } from "vue";
@@ -69,6 +70,20 @@ const addUser = async (user) => {
   console.log("Document written with ID: ", docRef.id);
 };
 
+const updateUser = async (user) => {
+  console.log("user.id", user.id);
+  const docRef = doc(db, "users", user.id);
+
+  await updateDoc(docRef, {
+    first_name: user.first_name,
+    last_name: user.last_name,
+    phone: user.phone,
+    address: user.address,
+    department: user.department,
+  });
+  console.log("Document updated with ID: ", docRef.id);
+};
+
 const deleteUser = async (userId) => {
   await deleteDoc(doc(db, "users", userId));
 };
@@ -78,6 +93,7 @@ export function useUsers() {
     user,
     users,
     addUser,
+    updateUser,
     deleteUser,
     getAllUsers,
     findUser,

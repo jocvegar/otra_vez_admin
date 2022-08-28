@@ -3,10 +3,10 @@ import {
   mdiMonitor,
   // mdiLock,
   // mdiAlertCircle,
-  mdiSquareEditOutline,
-  mdiTable,
-  mdiTelevisionGuide,
-  mdiResponsive,
+  // mdiSquareEditOutline,
+  // mdiTable,
+  // mdiTelevisionGuide,
+  // mdiResponsive,
   mdiAccountGroup,
 } from "@mdi/js";
 
@@ -21,26 +21,26 @@ export default [
     label: "Users",
     icon: mdiAccountGroup,
   },
-  {
-    to: "/tables",
-    label: "Tables",
-    icon: mdiTable,
-  },
-  {
-    to: "/forms",
-    label: "Forms",
-    icon: mdiSquareEditOutline,
-  },
-  {
-    to: "/ui",
-    label: "UI",
-    icon: mdiTelevisionGuide,
-  },
-  {
-    to: "/responsive",
-    label: "Responsive",
-    icon: mdiResponsive,
-  },
+  // {
+  //   to: "/tables",
+  //   label: "Tables",
+  //   icon: mdiTable,
+  // },
+  // {
+  //   to: "/forms",
+  //   label: "Forms",
+  //   icon: mdiSquareEditOutline,
+  // },
+  // {
+  //   to: "/ui",
+  //   label: "UI",
+  //   icon: mdiTelevisionGuide,
+  // },
+  // {
+  //   to: "/responsive",
+  //   label: "Responsive",
+  //   icon: mdiResponsive,
+  // },
   {
     to: "/profile",
     label: "Profile",

@@ -6,6 +6,7 @@
         title="Overview"
         main
       >
+        {{ "" }}
       </SectionTitleLineWithButton>
       <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mb-6">
         <CardBoxWidget
@@ -31,6 +32,7 @@
           :icon="mdiChartTimelineVariant"
           :number="userStore.departmentMostUsers.count"
           label="Most buyers"
+          hasEditButton
         />
       </div>
 
@@ -59,7 +61,9 @@
         </div>
       </div> -->
 
-      <SectionTitleLineWithButton :icon="mdiChartPie" title="Location" />
+      <SectionTitleLineWithButton :icon="mdiChartPie" title="Location">
+        {{ "" }}
+      </SectionTitleLineWithButton>
 
       <CardBox
         title="Performance"
@@ -73,7 +77,9 @@
         </div>
       </CardBox>
 
-      <SectionTitleLineWithButton :icon="mdiAccountMultiple" title="Clients" />
+      <SectionTitleLineWithButton :icon="mdiAccountMultiple" title="Clients">
+        {{ "" }}
+      </SectionTitleLineWithButton>
 
       <CardBox title="Lastest Clients" has-table>
         <TableClientsLimit />

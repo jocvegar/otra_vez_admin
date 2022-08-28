@@ -109,14 +109,14 @@ const logout = () => {
               <NavBarItem to="/profile">
                 <NavBarItemLabel :icon="mdiAccount" label="My Profile" />
               </NavBarItem>
-              <NavBarItem>
+              <!-- <NavBarItem>
                 <NavBarItemLabel :icon="mdiCogOutline" label="Settings" />
-              </NavBarItem>
-              <NavBarItem>
+              </NavBarItem> -->
+              <!-- <NavBarItem>
                 <NavBarItemLabel :icon="mdiEmail" label="Messages" />
-              </NavBarItem>
+              </NavBarItem> -->
               <BaseDivider nav-bar />
-              <NavBarItem>
+              <NavBarItem @click="logout">
                 <NavBarItemLabel :icon="mdiLogout" label="Log Out" />
               </NavBarItem>
             </template>
